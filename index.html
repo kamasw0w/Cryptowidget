@@ -52,4 +52,81 @@
     .coin {
       font-size: 20px;
       font-weight: 500;
-      padd
+      padding: 10px;
+      background-color: #f9f9f9;
+      border: 1px solid #eee;
+      border-radius: 6px;
+      opacity: 0;
+      transform: translateX(-100%);
+      animation: slideIn 0.8s ease forwards;
+    }
+
+    .coin:nth-child(1) { animation-delay: 0.1s; }
+    .coin:nth-child(2) { animation-delay: 0.2s; }
+    .coin:nth-child(3) { animation-delay: 0.3s; }
+    .coin:nth-child(4) { animation-delay: 0.4s; }
+    .coin:nth-child(5) { animation-delay: 0.5s; }
+
+    @keyframes slideIn {
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+
+    .footer {
+      position: absolute;
+      bottom: 10px;
+      left: 20px;
+      font-size: 12px;
+      color: #999;
+    }
+  </style>
+</head>
+<body>
+  <div class="left">
+    <h1>Trade<br>on SPOT</h1>
+    <p>spottrading.com</p>
+  </div>
+
+  <div class="right" id="prices">
+    <div class="coin">Loading prices...</div>
+  </div>
+
+  <script>
+    const coinIds = ['bitcoin', 'ethereum', 'binancecoin', 'solana', 'ripple'];
+    const coinNames = {
+      bitcoin: 'BTC',
+      ethereum: 'ETH',
+      binancecoin: 'BNB',
+      solana: 'SOL',
+      ripple: 'XRP'
+    };
+
+    async function fetchPrices() {
+      try {
+        const url = `https://api.coingecko.com/api/v3/simple/price?ids=${coinIds.join(',')}&vs_currencies=usd`;
+        const res = await fetch(url);
+        const data = await res.json();
+
+        const container = document.getElementById('prices');
+        container.innerHTML = '';
+
+        coinIds.forEach((id, index) => {
+          const price = data[id]?.usd?.toFixed(2);
+          const el = document.createElement('div');
+          el.className = 'coin';
+          el.style.animationDelay = `${index * 0.1}s`; // Ensure staggered animation
+          el.textContent = `${coinNames[id]}: $${price}`;
+          container.appendChild(el);
+        });
+      } catch (err) {
+        console.error('Error fetching prices', err);
+      }
+    }
+
+    fetchPrices();
+    setInterval(fetchPrices, 10000); // Refresh every 10 seconds
+  </script>
+</body>
+</html>
