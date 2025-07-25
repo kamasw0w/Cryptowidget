@@ -6,9 +6,9 @@
   <style>
     body {
       margin: 0;
-      font-family: Arial, sans-serif;
-      background-color: #0d1117;
-      color: #ffffff;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #ffffff;
+      color: #000000;
       display: flex;
       height: 100vh;
       width: 100vw;
@@ -16,7 +16,8 @@
 
     .left {
       width: 200px;
-      background-color: #161b22;
+      background-color: #f5f5f5;
+      border-right: 1px solid #ddd;
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -27,14 +28,14 @@
 
     .left h1 {
       font-size: 24px;
-      color: #f7931a;
+      color: #007aff;
       text-align: center;
       margin-bottom: 10px;
     }
 
     .left p {
       font-size: 14px;
-      color: #8b949e;
+      color: #555;
     }
 
     .right {
@@ -44,67 +45,11 @@
       display: flex;
       flex-direction: column;
       justify-content: center;
-      gap: 10px;
+      gap: 15px;
+      overflow: hidden;
     }
 
     .coin {
       font-size: 20px;
-      border-bottom: 1px solid #30363d;
-      padding-bottom: 5px;
-    }
-
-    .footer {
-      position: absolute;
-      bottom: 10px;
-      left: 20px;
-      font-size: 12px;
-      color: #8b949e;
-    }
-  </style>
-</head>
-<body>
-  <div class="left">
-    <h1>Trade<br>on SPOT</h1>
-    <p>spottrading.com</p>
-  </div>
-
-  <div class="right" id="prices">
-    <div class="coin">Loading prices...</div>
-  </div>
-
-  <script>
-    const coinIds = ['bitcoin', 'ethereum', 'binancecoin', 'solana', 'ripple'];
-    const coinNames = {
-      bitcoin: 'BTC',
-      ethereum: 'ETH',
-      binancecoin: 'BNB',
-      solana: 'SOL',
-      ripple: 'XRP'
-    };
-
-    async function fetchPrices() {
-      try {
-        const url = `https://api.coingecko.com/api/v3/simple/price?ids=${coinIds.join(',')}&vs_currencies=usd`;
-        const res = await fetch(url);
-        const data = await res.json();
-
-        const container = document.getElementById('prices');
-        container.innerHTML = '';
-
-        coinIds.forEach(id => {
-          const price = data[id]?.usd?.toFixed(2);
-          const el = document.createElement('div');
-          el.className = 'coin';
-          el.textContent = `${coinNames[id]}: $${price}`;
-          container.appendChild(el);
-        });
-      } catch (err) {
-        console.error('Error fetching prices', err);
-      }
-    }
-
-    fetchPrices();
-    setInterval(fetchPrices, 10000); // Update every 10 seconds
-  </script>
-</body>
-</html>
+      font-weight: 500;
+      padd
